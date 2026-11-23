@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJET HAUS | 대형가전 전문 쇼핑몰</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- 상단 유틸리티 바 -->
+<div class="util-bar">
+  <div class="util-inner">
+    <span>OBJET HAUS 대형가전 전문관 · 냉장고 · 세탁기 · 건조기 공식 스토어</span>
+    <div class="util-links" id="utilAuthLinks"></div>
+  </div>
+</div>
+
+<!-- 메인 GNB -->
+<header>
+  <div class="gnb-inner">
+    <a class="brand-logo" onclick="filterCategory('ALL')">
+      <span class="brand-mark">OH</span>
+      <span class="brand-name">OBJET<span>.HAUS</span></span>
+    </a>
+
+    <nav class="gnb-menu" id="catNav">
+      <button class="active" data-cat="ALL" onclick="filterCategory('ALL')">전체</button>
+      <button data-cat="냉장고" onclick="filterCategory('냉장고')">냉장고</button>
+      <button data-cat="세탁기" onclick="filterCategory('세탁기')">세탁기</button>
+      <button data-cat="건조기" onclick="filterCategory('건조기')">건조기</button>
+    </nav>
+
+    <div class="gnb-right">
+      <div class="gnb-search-box">
+        <input type="text" id="gnbSearchInput" maxlength="20" placeholder="상품명, 카테고리, 모델명 검색" oninput="syncSearchInputs(this.value)" />
+      </div>
+      <!-- 관리자 로그인 시에만 표시 -->
+      <button class="icon-btn admin-only" id="adminNavBtn" style="display:none;" onclick="showView('view-admin')">관리자</button>
+      <button class="icon-btn" onclick="showView('view-cart')">장바구니 <span class="cart-count" id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="main-wrap">
+  <!-- S-02: 상품 목록 (대형가전) -->
+  <section id="view-home" class="view-section active">
+    <div class="hero-banner">
+      <img src="images/hero-banner.png" alt="오브제하우스 대형가전 인테리어" />
+      <div class="hero-gradient"></div>
+      <div class="hero-content">
+        <span class="hero-eyebrow">OBJET HAUS · 대형가전 전문 쇼핑몰</span>
+        <h1>공간에 맞춰 완성하는<br/>프리미엄 오브제 대형가전</h1>
+        <p>냉장고 · 세탁기 · 건조기 12종 라인업과 맞춤 옵션, 다품목·제휴카드 복합 할인을 경험해 보세요.</p>
+        <button class="btn-hero" onclick="document.getElementById('catalogAnchor').scrollIntoView({behavior:'smooth'})">
+          전체 가전 둘러보기
+        </button>
+      </div>
+    </div>
+
+    <!-- 카테고리 빠른 이동 -->
+    <div class="cat-strip">
+      <div class="cat-item active" data-cat="ALL" onclick="filterCategory('ALL')">
+        <img class="cat-thumb" src="images/washtower-compact.png" alt="전체" />
+        <div>
+          <div class="cat-title">전체 (12)</div>
+          <div class="cat-desc">냉장고 · 세탁기 · 건조기</div>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="냉장고" onclick="filterCategory('냉장고')">
+        <img class="cat-thumb" src="images/fridge-bespoke-4door.png" alt="냉장고" />
+        <div>
+          <div class="cat-title">냉장고 (4)</div>
+          <div class="cat-desc">얼음정수 · 용량 · 노크온</div>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="세탁기" onclick="filterCategory('세탁기')">
+        <img class="cat-thumb" src="images/washer-tromm-objet.png" alt="세탁기" />
+        <div>
+          <div class="cat-title">세탁기 (4)</div>
+          <div class="cat-desc">용량 · 미니워시 · 키높이수납장</div>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="건조기" onclick="filterCategory('건조기')">
+        <img class="cat-thumb" src="images/dryer-tromm-objet.png" alt="건조기" />
+        <div>
+          <div class="cat-title">건조기 (4)</div>
+          <div class="cat-desc">용량 22kg 옵션 선택</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 비회원 웰컴 쿠폰 받기 배너 -->
+    <div class="welcome-banner">
+      <div>
+        <strong>신규 회원 웰컴 혜택</strong> · 회원가입 시 주문 금액 제한 없이 즉시 사용 가능한 <strong>50,000원 웰컴 쿠폰</strong> 지급!
+      </div>
+      <button class="btn-solid" style="padding:9px 18px;" onclick="openAuthView('signup')">웰컴 쿠폰 받기</button>
+    </div>
+
+    <!-- 상품 정렬 및 목록 -->
+    <div class="section-header" id="catalogAnchor">
+      <div>
+        <h2 style="display:inline;" id="sectionTitle">전체 대형가전</h2>
+        <span class="sub" id="productCount">총 12개 모델</span>
+      </div>
+      <div class="filter-controls">
+        <div class="catalog-search-box">
+          <input type="text" id="catalogSearchInput" maxlength="20" placeholder="제품명, 모델명 검색" oninput="syncSearchInputs(this.value)" />
+        </div>
+        <select id="sortSelect" onchange="renderProducts()">
+          <option value="default">기본순</option>
+          <option value="latest">최신순</option>
+          <option value="asc">낮은가격순</option>
+          <option value="desc">높은가격순</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- S-03: 상품 상세 -->
+  <section id="view-pdp" class="view-section">
+    <div class="pdp-box" id="pdpContent"></div>
+  </section>
+
+  <!-- S-04: 장바구니 -->
+  <section id="view-cart" class="view-section">
+    <h2 style="font-size:22px; margin-bottom:20px;">장바구니</h2>
+    <div class="cart-grid">
+      <div id="cartListArea"></div>
+      <div id="cartSummaryArea"></div>
+    </div>
+  </section>
+
+  <!-- S-05: 주문·결제 페이지 -->
+  <section id="view-checkout" class="view-section">
+    <h2 style="font-size:22px; margin-bottom:20px;">주문 · 결제</h2>
+    <div id="checkoutContent"></div>
+  </section>
+
+  <!-- S-01: 로그인 / 회원가입 (탭 전환) -->
+  <section id="view-auth" class="view-section">
+    <div class="auth-wrapper">
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">로그인</button>
+        <button type="button" class="auth-tab-btn" id="tabSignupBtn" onclick="switchAuthTab('signup')">회원가입</button>
+      </div>
+
+      <div class="auth-body">
+        <!-- 로그인 폼 -->
+        <div id="loginFormPanel">
+          <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">로그인</h2>
+          <p style="font-size:13px; color:var(--text-secondary); margin-bottom:20px;">가입된 아이디 또는 이메일로 로그인해 주세요.</p>
+          <form onsubmit="handleLogin(event)">
+            <div class="field-group">
+              <label>아이디 또는 이메일</label>
+              <input type="text" id="loginId" placeholder="예: user01 또는 user1@test.com" />
+            </div>
+            <div class="field-group">
+              <label>비밀번호</label>
+              <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" />
+            </div>
+            <div class="error-text" id="loginError"></div>
+            <button type="submit" class="btn-solid" style="width:100%; padding:13px; font-size:15px;">로그인</button>
+          </form>
+
+        </div>
+
+        <!-- 회원가입 폼 -->
+        <div id="signupFormPanel" style="display:none;">
+          <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">회원가입</h2>
+          <p style="font-size:13px; color:var(--brand); font-weight:600; margin-bottom:20px;">가입 즉시 50,000원 웰컴 쿠폰이 발급됩니다!</p>
+          <form onsubmit="handleSignup(event)">
+            <div class="field-group">
+              <label>아이디</label>
+              <input type="text" id="regId" maxlength="8" placeholder="예: user05" oninput="validateSignupRealtime()" />
+              <div class="rule-hint" id="regIdHint">영문과 숫자를 모두 포함한 8자 이하 (예: user01)</div>
+            </div>
+            <div class="field-group">
+              <label>이메일</label>
+              <input type="email" id="regEmail" placeholder="예: user5@test.com" />
+              <div class="rule-hint">이메일 형식(아이디@도메인) 준수 및 중복 불가</div>
+            </div>
+            <div class="field-group">
+              <label>비밀번호</label>
+              <input type="password" id="regPw" maxlength="20" placeholder="비밀번호 입력" oninput="validateSignupRealtime()" />
+              <div class="rule-hint" id="regPwHint">8~20자, 영문·숫자·특수문자 중 2종 이상 조합 필수</div>
+            </div>
+            <div class="error-text" id="regError"></div>
+            <button type="submit" class="btn-solid" style="width:100%; padding:13px; font-size:15px;">회원가입 완료</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S-06: 마이페이지 -->
+  <section id="view-mypage" class="view-section">
+    <div id="mypageContent"></div>
+  </section>
+
+  <!-- S-07: 관리자 페이지 -->
+  <section id="view-admin" class="view-section">
+    <div id="adminContent"></div>
+  </section>
+</main>
+
+<!-- 깔끔한 텍스트 전용 장바구니 담기 토스트 팝업 -->
+<div class="cart-toast" id="cartToast" role="status" aria-live="polite">
+  <span class="toast-icon">✓</span>
+  <div class="toast-text-wrap">
+    <strong id="toastTitle">장바구니에 상품이 담겼습니다.</strong>
+    <span id="toastSub"></span>
+  </div>
+  <button type="button" class="toast-go-btn" onclick="goCartFromToast()">장바구니 이동</button>
+</div>
+
+
+<!-- 푸터 버튼 클릭 시 열리는 테스터 계정 안내 모달 -->
+<div class="modal-backdrop" id="testerModal" onclick="if(event.target === this) closeTesterModal()">
+  <div class="tester-modal-box" role="dialog" aria-modal="true" aria-labelledby="testerModalTitle">
+    <div class="tester-modal-header">
+      <h3 id="testerModalTitle">🔑 QA 테스트용 계정 안내</h3>
+      <button type="button" class="modal-close-btn" onclick="closeTesterModal()" aria-label="닫기">×</button>
+    </div>
+    <div class="tester-modal-body">
+      <p class="tester-modal-desc">계정을 클릭하면 로그인 화면으로 이동하여 아이디·비밀번호가 자동 입력됩니다.</p>
+      <div class="tester-list">
+        <div class="tester-item" onclick="quickFillLogin('admin01', 'Admin1234!')">
+          <div>
+            <strong>admin01</strong> <span class="tester-badge admin">관리자</span>
+            <div class="tester-meta">admin1@test.com · PW: <code>Admin1234!</code> · 매출·재고·배송상태 관리</div>
+          </div>
+          <span class="tester-action">자동입력 →</span>
+        </div>
+        <div class="tester-item" onclick="quickFillLogin('user01', 'Test1234!')">
+          <div>
+            <strong>user01</strong> <span class="tester-badge">일반회원</span>
+            <div class="tester-meta">user1@test.com · PW: <code>Test1234!</code> · 웰컴쿠폰(5만원) 1장, 10,000P</div>
+          </div>
+          <span class="tester-action">자동입력 →</span>
+        </div>
+        <div class="tester-item" onclick="quickFillLogin('user02', 'Test1234!')">
+          <div>
+            <strong>user02</strong> <span class="tester-badge">일반회원</span>
+            <div class="tester-meta">user2@test.com · PW: <code>Test1234!</code> · 만료/사용완료 쿠폰, 500P</div>
+          </div>
+          <span class="tester-action">자동입력 →</span>
+        </div>
+        <div class="tester-item" onclick="quickFillLogin('user03', 'Test1234!')">
+          <div>
+            <strong>user03</strong> <span class="tester-badge">일반회원</span>
+            <div class="tester-meta">user3@test.com · PW: <code>Test1234!</code> · 상태별 주문 4건, 35,000P</div>
+          </div>
+          <span class="tester-action">자동입력 →</span>
+        </div>
+        <div class="tester-item" onclick="quickFillLogin('user04', 'Test1234!')">
+          <div>
+            <strong>user04</strong> <span class="tester-badge">일반회원</span>
+            <div class="tester-meta">user4@test.com · PW: <code>Test1234!</code> · 초기화 상태 (0P, 쿠폰·주문 없음)</div>
+          </div>
+          <span class="tester-action">자동입력 →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 커스텀 안내/확인 모달창 (기존 alert / confirm 대체) -->
+<div class="modal-backdrop" id="uiAlertModal" onclick="if(event.target === this) resolveUiAlert(false)">
+  <div class="ui-alert-box" role="dialog" aria-modal="true" aria-labelledby="uiAlertTitle">
+    <div class="ui-alert-header">
+      <h3 id="uiAlertTitle">안내</h3>
+      <button type="button" class="modal-close-btn" onclick="resolveUiAlert(false)" aria-label="닫기">×</button>
+    </div>
+    <div class="ui-alert-body">
+      <p id="uiAlertMessage"></p>
+    </div>
+    <div class="ui-alert-footer" id="uiAlertFooter">
+      <button type="button" class="btn-line" id="uiAlertCancelBtn" style="display:none; padding:11px 18px;" onclick="resolveUiAlert(false)">취소</button>
+      <button type="button" class="btn-solid" id="uiAlertOkBtn" style="padding:11px 22px;" onclick="resolveUiAlert(true)">확인</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">OBJET<span>.HAUS</span></div>
+      <p>공간과 조화를 이루는 프리미엄 대형가전 전문 스토어 · 냉장고 · 세탁기 · 건조기</p>
+    </div>
+    <div class="footer-actions">
+      <div class="footer-btn-row">
+        <button type="button" class="btn-footer-reset" onclick="openTesterModal()">🔑 테스터 계정 안내</button>
+        <button type="button" class="btn-footer-reset" onclick="resetAllSrsData(false)">↻ 초기 데이터로 리셋</button>
+      </div>
+      <span class="footer-copy">© 2026 OBJET HAUS. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

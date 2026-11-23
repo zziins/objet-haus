@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>OBJET HAUS | 경로 확인 중...</title>
+  <script>
+    (function () {
+      var pathname = window.location.pathname || '';
+      var isAdminPath = /\/admin\/?$/i.test(pathname);
+      var basePath = pathname.replace(/\/admin\/?$/i, '/');
+      if (!basePath.endsWith('/')) basePath += '/';
+
+      if (isAdminPath) {
+        sessionStorage.setItem('srs43_pending_route', '/admin');
+        window.location.replace(basePath + 'index.html');
+      } else {
+        window.location.replace(basePath + 'index.html');
+      }
+    })();
+  </script>
+</head>
+<body></body>
+</html>
