@@ -1563,7 +1563,7 @@ function renderAdmin() {
     const endDate = document.getElementById('salesEndDate')?.value || '2026-12-31';
 
     if (startDate > endDate) {
-      openAlertModal('시작일은 종료일보다 늦을 수 없습니다.', '기간 조회 안내');
+      openAlertModal('시작일은 종료일보다 이전이어야 합니다.', '기간 조회 안내');
     }
     const validOrders = startDate <= endDate
       ? orders.filter(o => o.status !== '취소됨' && o.orderDate >= startDate && o.orderDate <= endDate)
