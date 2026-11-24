@@ -369,14 +369,6 @@ const DEFAULT_ORDERS = [
 ];
 
 
-const TEAM_BUG_FLAGS = {
-  T1: false, // 팀원 1: 주문·복합결제 (S-05) 5개
-  T2: false, // 팀원 2: 장바구니·다품목할인 (S-04) 5개
-  T3: false, // 팀원 3: 상품탐색·상세옵션 (S-02, S-03) 5개
-  T4: false, // 팀원 4: 마이페이지·주문취소 (S-06) 5개
-  T5: false  // 팀원 5: 회원가입/로그인·관리자 (S-01, S-07) 5개
-};
-
 let products = JSON.parse(localStorage.getItem('srs43_v12_t25_products')) || JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
 let users = JSON.parse(localStorage.getItem('srs43_v12_t25_users')) || JSON.parse(JSON.stringify(DEFAULT_USERS));
 let currentUser = JSON.parse(localStorage.getItem('srs43_v12_t25_current_user')) || null;
@@ -578,13 +570,7 @@ function mergeGuestCartIntoUser(userId) {
     if (same) {
       same.qty = Math.min(maxAllowed, same.qty + gItem.qty);
     } else {
-      if (TEAM_BUG_FLAGS.T5) {
-        // [T5-DEF-02] 비회원 장바구니 병합 시 선택 옵션 초기화
-        const baseProd = products.find(p => p.id === gItem.productId);
-        target.push({ ...gItem, optionKey: 'NONE', optionText: '기본 사양 (추가 옵션 없음)', unitPrice: baseProd ? baseProd.price : gItem.unitPrice, qty: Math.min(maxAllowed, gItem.qty) });
-      } else {
-        target.push({ ...gItem, qty: Math.min(maxAllowed, gItem.qty) });
-      }
+      target.push({ ...gItem, qty: Math.min(maxAllowed, gItem.qty) });
     }
   });
   guestCart = [];
@@ -605,8 +591,7 @@ function handleSignup(e) {
     errEl.innerText = '이미 사용 중인 아이디입니다.';
     return;
   }
-  if (!TEAM_BUG_FLAGS.T5 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    // [T5-DEF-01] 이메일 형식(@도메인) 검증 누락
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errEl.innerText = '올바른 이메일 형식(아이디@도메인)을 입력해 주세요.';
     return;
   }
@@ -694,8 +679,7 @@ function syncSearchInputs(val) {
 
 function renderProducts() {
   const sort = document.getElementById('sortSelect').value;
-  const rawKeyword = TEAM_BUG_FLAGS.T3 ? document.getElementById('gnbSearchInput').value : document.getElementById('gnbSearchInput').value.trim();
-  // [T3-DEF-01] 검색어 앞뒤 공백(trim) 미제거
+  const rawKeyword = document.getElementById('gnbSearchInput').value.trim();
   const keyword = rawKeyword.toLowerCase();
 
   let list = products.filter(p => {
@@ -705,8 +689,7 @@ function renderProducts() {
   });
 
   if (sort === 'latest') list.sort((a, b) => b.id - a.id);
-  if (!TEAM_BUG_FLAGS.T3 && sort === 'asc') list.sort((a, b) => a.price - b.price);
-  // [T3-DEF-03] 낮은가격순 정렬 미적용
+  if (sort === 'asc') list.sort((a, b) => a.price - b.price);
   if (sort === 'desc') list.sort((a, b) => b.price - a.price);
 
   document.getElementById('productCount').innerText = `총 ${list.length}개 모델`;
@@ -743,11 +726,10 @@ function renderProducts() {
           <div class="price-sub">제휴카드 5% 혜택가 ${formatKRW(Math.round(p.price * 0.95))}</div>
         </div>
         <div class="card-actions">
-          <button class="btn-line" ${(!TEAM_BUG_FLAGS.T5 && p.stock === 0) ? 'disabled' : ''} onclick="quickAddCart(${p.id})">장바구니</button>
-          <button class="btn-solid" ${(!TEAM_BUG_FLAGS.T5 && p.stock === 0) ? 'disabled' : ''} onclick="openPDP(${p.id})">
+          <button class="btn-line" ${p.stock === 0 ? 'disabled' : ''} onclick="quickAddCart(${p.id})">장바구니</button>
+          <button class="btn-solid" ${p.stock === 0 ? 'disabled' : ''} onclick="openPDP(${p.id})">
             ${p.stock === 0 ? '품절' : '상세 · 옵션선택'}
           </button>
-          <!-- [T5-DEF-05] 재고 0 품절 상태에서도 카드 내 장바구니·상세 버튼 비활성화 누락 -->
         </div>
       </div>
     </div>
@@ -816,14 +798,10 @@ function renderPDP() {
   if (!p) return;
 
   const chosenOpts = p.options.filter(o => selectedOptionIds.includes(o.id));
-  const optionExtraSum = (TEAM_BUG_FLAGS.T3 && chosenOpts.length > 1)
-    ? chosenOpts[chosenOpts.length - 1].extra
-    : chosenOpts.reduce((s, o) => s + o.extra, 0);
-  // [T3-DEF-04] 복수 옵션 선택 시 합산 대신 마지막 선택 옵션 금액만 반영
+  const optionExtraSum = chosenOpts.reduce((s, o) => s + o.extra, 0);
   const unitPrice = p.price + optionExtraSum;
   const baseTotal = unitPrice * selQty;
-  const cardDiscountAmt = simCardDiscount ? Math.round((TEAM_BUG_FLAGS.T3 ? unitPrice : baseTotal) * 0.05) : 0;
-  // [T3-DEF-05] 혜택가 시뮬레이터 카드 5% 할인이 수량(selQty) 미곱셈으로 1개 기준만 차감
+  const cardDiscountAmt = simCardDiscount ? Math.round(baseTotal * 0.05) : 0;
   const benefitTotal = baseTotal - cardDiscountAmt;
 
   const modelImg = p.cardImg;
@@ -920,13 +898,11 @@ function renderPDP() {
     </div>
   `;
 }
-
 function changePdpQty(delta) {
   const p = products.find(item => item.id === currentProductId);
   const next = selQty + delta;
   if (next < 1) return openAlertModal('수량은 1 이상이어야 합니다.');
-  if (!TEAM_BUG_FLAGS.T3 && next > 99) return openAlertModal('최대 주문 가능 수량은 99개입니다.');
-  // [T3-DEF-02] 상세 페이지 수량 상한(99개) 초과 입력 허용
+  if (next > 99) return openAlertModal('최대 주문 가능 수량은 99개입니다.');
   if (next > p.stock) return openAlertModal(`남은 재고 수량(${p.stock}대)을 초과할 수 없습니다.`);
   selQty = next;
   renderPDP();
@@ -952,10 +928,7 @@ function handlePdpQtyInput(val) {
 
 function buildSelectedProductPayload(p) {
   const chosenOpts = p.options.filter(o => selectedOptionIds.includes(o.id));
-  const optionExtraSum = (TEAM_BUG_FLAGS.T3 && chosenOpts.length > 1)
-    ? chosenOpts[chosenOpts.length - 1].extra
-    : chosenOpts.reduce((s, o) => s + o.extra, 0);
-  // [T3-DEF-04] 복수 옵션 선택 시 합산 대신 마지막 선택 옵션 금액만 반영
+  const optionExtraSum = chosenOpts.reduce((s, o) => s + o.extra, 0);
   const unitPrice = p.price + optionExtraSum;
   const optionKey = chosenOpts.length > 0 ? chosenOpts.map(o => o.id).sort().join('+') : 'NONE';
   const optionText = chosenOpts.length > 0
@@ -1070,8 +1043,7 @@ function renderCart() {
   const subtotal = checkedItems.reduce((s, i) => s + i.unitPrice * i.qty, 0);
 
   const distinctProductIds = new Set(checkedItems.map(i => i.productId));
-  const multiDiscount = (TEAM_BUG_FLAGS.T2 ? checkedItems.length >= 2 : distinctProductIds.size >= 2) ? Math.round(subtotal * 0.05) : 0;
-  // [T2-DEF-04] 동일 모델·상이 옵션 2건 선택 시 다품목 5% 할인 오적용
+  const multiDiscount = distinctProductIds.size >= 2 ? Math.round(subtotal * 0.05) : 0;
 
   const afterMulti = Math.max(0, subtotal - multiDiscount);
   const maxPoints = currentUser ? currentUser.points : 0;
@@ -1079,8 +1051,7 @@ function renderCart() {
   if (cartUsePoints > afterMulti) cartUsePoints = afterMulti;
 
   const afterPoint = Math.max(0, afterMulti - cartUsePoints);
-  const cardDiscount = cartCardDiscount ? Math.round((TEAM_BUG_FLAGS.T2 ? subtotal : afterPoint) * 0.05) : 0;
-  // [T2-DEF-05] 제휴 카드 5% 할인을 할인 후 금액이 아닌 원가(subtotal) 기준으로 계산
+  const cardDiscount = cartCardDiscount ? Math.round(afterPoint * 0.05) : 0;
   const finalPrice = Math.max(0, afterPoint - cardDiscount);
 
   sumEl.innerHTML = `
@@ -1139,15 +1110,25 @@ function toggleSingleCart(idx) {
 function changeCartQty(idx, delta) {
   const activeCart = getActiveCart();
   const item = activeCart[idx];
+  if (!item) return;
   const prod = products.find(p => p.id === item.productId);
   const next = item.qty + delta;
-  if (!TEAM_BUG_FLAGS.T2) {
-    if (next < 1) return openAlertModal('수량은 1 이상이어야 합니다.');
-    if (next > 99) return openAlertModal('최대 수량은 99개입니다.');
-    const otherQty = activeCart.filter((c, i) => i !== idx && c.productId === item.productId).reduce((s, c) => s + c.qty, 0);
-    if (otherQty + next > prod.stock) return openAlertModal(`남은 재고 수량(${prod.stock}대)을 초과할 수 없습니다.`);
+
+  if (next < 1) {
+    return openAlertModal('최소 주문 수량은 1개입니다.', '수량 안내');
   }
-  // [T2-DEF-01] 수량 1 미만 감소 허용 / [T2-DEF-02] 남은 재고 초과 수량 허용
+  if (next > 99) {
+    return openAlertModal('최대 주문 가능 수량은 99개입니다.', '수량 안내');
+  }
+  if (prod) {
+    const otherQty = activeCart
+      .filter((c, i) => i !== idx && c.productId === item.productId)
+      .reduce((s, c) => s + c.qty, 0);
+    if (otherQty + next > prod.stock) {
+      return openAlertModal(`남은 재고 수량(${prod.stock}대)을 초과할 수 없습니다.`, '재고 안내');
+    }
+  }
+
   item.qty = next;
   setActiveCart(activeCart);
   saveState();
@@ -1159,13 +1140,7 @@ function removeCartItem(idx) {
   activeCart.splice(idx, 1);
   setActiveCart(activeCart);
   saveState();
-  if (!TEAM_BUG_FLAGS.T2) {
-    renderCart();
-  } else {
-    // [T2-DEF-03] 개별 삭제 시 목록만 갱신되고 결제 예정 금액 미갱신
-    const listEl = document.getElementById('cartListArea');
-    if (listEl) renderCartListOnly(listEl);
-  }
+  renderCart();
 }
 
 function deleteSelectedCart() {
@@ -1212,16 +1187,9 @@ function renderCheckout() {
   const afterMultiCoupon = Math.max(0, subtotal - multiDiscount - couponDiscount);
   const maxPoints = currentUser.points;
   let usePoint = Number(document.getElementById('orderPointInput')?.value || 0);
-  if (!TEAM_BUG_FLAGS.T1) {
-    if (usePoint < 0 || Number.isNaN(usePoint)) usePoint = 0;
-    if (usePoint > maxPoints) usePoint = maxPoints;
-    if (usePoint > afterMultiCoupon) usePoint = afterMultiCoupon;
-  } else {
-    // [T1-DEF-01] 보유 포인트 초과 입력 시 상한 차단 누락
-    // [T1-DEF-02] 음수 포인트 입력 시 차단 누락
-    // [T1-DEF-04] 쿠폰 할인 후 잔여 결제액 초과 포인트 입력 시 잔여액 한도 보정 누락
-    if (Number.isNaN(usePoint)) usePoint = 0;
-  }
+  if (usePoint < 0 || Number.isNaN(usePoint)) usePoint = 0;
+  if (usePoint > maxPoints) usePoint = maxPoints;
+  if (usePoint > afterMultiCoupon) usePoint = afterMultiCoupon;
 
   const afterPoint = Math.max(0, afterMultiCoupon - usePoint);
   const useCard = document.getElementById('orderCardCheck')?.checked || false;
@@ -1308,8 +1276,7 @@ function renderCheckout() {
 
 function submitOrderPayment(finalAmount, multiDiscount, couponId, couponDiscount, pointUsed, cardDiscount, earnedPoints) {
   const address = document.getElementById('orderAddress').value.trim();
-  if (!TEAM_BUG_FLAGS.T1 && !address) return openAlertModal('설치 주소를 입력해 주세요.');
-  // [T1-DEF-03] 설치 주소 공란 상태에서 결제 통과
+  if (!address) return openAlertModal('설치 주소를 입력해 주세요.');
 
   const qtyMap = {};
   checkoutItemsCache.forEach(i => {
@@ -1377,8 +1344,7 @@ function submitOrderPayment(finalAmount, multiDiscount, couponId, couponDiscount
   orders.unshift(newOrder);
 
   const orderedUids = new Set(checkoutItemsCache.map(i => i.uid));
-  const activeCart = TEAM_BUG_FLAGS.T1 ? [] : getActiveCart().filter(i => !orderedUids.has(i.uid));
-  // [T1-DEF-05] 결제 후 주문하지 않은 미선택 상품까지 장바구니에서 함께 삭제
+  const activeCart = getActiveCart().filter(i => !orderedUids.has(i.uid));
   setActiveCart(activeCart);
   checkoutItemsCache = [];
 
@@ -1398,8 +1364,7 @@ function renderMyPage() {
 
   const myAllOrders = orders.filter(o => o.userId === currentUser.id);
   const activeOrders = myAllOrders.filter(o => ['결제완료', '배송준비', '설치중'].includes(o.status));
-  const pastOrders = myAllOrders.filter(o => (TEAM_BUG_FLAGS.T4 ? ['배송완료', '취소됨', '결제완료'] : ['배송완료', '취소됨']).includes(o.status));
-  // [T4-DEF-02] 과거 주문 내역 탭에 진행 중(결제완료) 주문 포함
+  const pastOrders = myAllOrders.filter(o => ['배송완료', '취소됨'].includes(o.status));
   const myCoupons = currentUser.coupons || [];
   const availCoupons = myCoupons.filter(c => c.status === '사용가능');
   const pHistory = currentUser.pointHistory || [];
@@ -1426,10 +1391,9 @@ function renderMyPage() {
                   <td><strong>${formatKRW(o.amount)}</strong></td>
                   <td><strong style="color:var(--brand);">${o.status}</strong></td>
                   <td>
-                    ${(o.status === '결제완료' || (TEAM_BUG_FLAGS.T4 && o.status === '배송준비'))
+                    ${(o.status === '결제완료')
         ? `<button class="icon-btn" style="color:var(--danger); border-color:var(--danger);" onclick="cancelUserOrder('${o.orderId}')">주문 취소</button>`
         : `<span style="font-size:12px; color:var(--text-muted);">취소 불가 (${o.status})</span>`}
-                    <!-- [T4-DEF-01] 배송준비 상태 주문 취소 허용 -->
                   </td>
                 </tr>
               `).join('')}
@@ -1496,7 +1460,7 @@ function renderMyPage() {
                   <div style="font-size:14px; font-weight:700; margin-bottom:4px;">${c.title}</div>
                   <div style="font-size:12px; color:var(--text-secondary);">주문 금액 제한 없음 · 유효기간 ~${c.expiry}</div>
                 </div>
-                <span class="coupon-tag">${(TEAM_BUG_FLAGS.T4 && c.status === '기간만료') ? '사용가능' : c.status}</span>
+                <span class="coupon-tag">${c.status}</span>
               </div>
             `).join('')}
           </div>
@@ -1540,7 +1504,7 @@ function renderMyPage() {
 function cancelUserOrder(orderId) {
   const order = orders.find(o => o.orderId === orderId);
   if (!order) return;
-  if (order.status !== '결제완료' && !(TEAM_BUG_FLAGS.T4 && order.status === '배송준비')) {
+  if (order.status !== '결제완료') {
     return openAlertModal(`현재 상태(${order.status})에서는 주문을 취소할 수 없습니다.`);
   }
   // confirmed via modal
@@ -1556,12 +1520,11 @@ function cancelUserOrder(orderId) {
   const today = new Date().toISOString().slice(0, 10);
   if (!currentUser.pointHistory) currentUser.pointHistory = [];
 
-  if (!TEAM_BUG_FLAGS.T4 && order.couponId) {
+  if (order.couponId) {
     const targetC = (currentUser.coupons || []).find(c => c.id === order.couponId);
     if (targetC) targetC.status = '사용가능';
   }
-  // [T4-DEF-04] 주문 취소 시 사용 쿠폰 미복구
-  if (!TEAM_BUG_FLAGS.T4 && order.earnedPoints > 0) {
+  if (order.earnedPoints > 0) {
     currentUser.points = Math.max(0, currentUser.points - order.earnedPoints);
     currentUser.pointHistory.unshift({
       date: today,
@@ -1599,15 +1562,12 @@ function renderAdmin() {
     const startDate = document.getElementById('salesStartDate')?.value || '2026-11-01';
     const endDate = document.getElementById('salesEndDate')?.value || '2026-12-31';
 
-    if (!TEAM_BUG_FLAGS.T5 && startDate > endDate) {
+    if (startDate > endDate) {
       openAlertModal('시작일은 종료일보다 늦을 수 없습니다.', '기간 조회 안내');
     }
-    // [T5-DEF-04] 시작일 > 종료일 역전 시 오류 안내 누락
-
-    const validOrders = orders.filter(o =>
-      (TEAM_BUG_FLAGS.T5 || o.status !== '취소됨') && o.orderDate >= startDate && o.orderDate <= endDate
-    );
-    // [T5-DEF-03] 매출 집계 시 '취소됨' 주문 제외 누락
+    const validOrders = startDate <= endDate
+      ? orders.filter(o => o.status !== '취소됨' && o.orderDate >= startDate && o.orderDate <= endDate)
+      : [];
     const netSales = validOrders.reduce((s, o) => s + o.amount, 0);
     const avgSales = validOrders.length > 0 ? Math.round(netSales / validOrders.length) : 0;
 
