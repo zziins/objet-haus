@@ -2006,16 +2006,15 @@ document.addEventListener('DOMContentLoaded', checkAdminUrlAccess);
 
 ///mypage등 비정상 접근
 function handlePendingSubRoute() {
-  const pendingRoute = sessionStorage.getItem('wawa_pending_route') || sessionStorage.getItem('srs43_pending_route');
-  const currentHash = window.location.hash || '';
-  const currentPath = window.location.pathname || '';
+  sessionStorage.removeItem('wawa_loop_guard');
 
-  if (sessionStorage.getItem('wawa_pending_route')) {
+  const pendingRoute = sessionStorage.getItem('wawa_pending_route');
+  if (pendingRoute) {
     sessionStorage.removeItem('wawa_pending_route');
   }
-  if (sessionStorage.getItem('srs43_pending_route')) {
-    sessionStorage.removeItem('srs43_pending_route');
-  }
+
+  const currentHash = window.location.hash || '';
+  const currentPath = window.location.pathname || '';
 
   const matchedPath =
     pendingRoute ||
@@ -2027,8 +2026,10 @@ function handlePendingSubRoute() {
   if (!matchedPath) return;
 
   if (window.history && window.history.replaceState) {
-    const cleanUrl = window.location.pathname.replace(/\/(admin|mypage|cart|checkout)\/?$/i, '/');
-    window.history.replaceState(null, '', cleanUrl);
+    const cleanUrl = window.location.pathname
+      .replace(/(\/index\.html)+$/i, '')
+      .replace(/\/(admin|mypage|cart|checkout)\/?$/i, '/');
+    window.history.replaceState(null, '', cleanUrl || '/objet-haus/');
   }
 
   if (matchedPath === '/admin') {
