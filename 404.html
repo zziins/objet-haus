@@ -8,25 +8,24 @@
     (function () {
       var pathname = window.location.pathname || '/';
 
-      // 이미 index.html 경로로 들어온 경우 무한 루프 차단
-      if (/index\.html/i.test(pathname) || sessionStorage.getItem('wawa_loop_guard') === '1') {
+      if (sessionStorage.getItem('wawa_loop_guard') === '1') {
         sessionStorage.removeItem('wawa_loop_guard');
         return;
       }
 
-      // 저장소 base 경로 추출 (예: /objet-haus/mypage -> /objet-haus)
-      var match = pathname.match(/^(.*?)\/(?:admin|mypage|cart|checkout)\/?$/i);
-      var basePath = match ? match[1] : pathname.replace(/\/[^/]*$/, '');
-      if (!basePath.startsWith('/')) basePath = '/' + basePath;
+      var cleanedPath = pathname.replace(/(\/index\.html)+$/i, '') || '/';
+      var match = cleanedPath.match(/^(.*?)\/(?:admin|mypage|cart|checkout)\/?$/i);
+      var basePath = match ? match[1] : cleanedPath.replace(/\/[^/]*$/, '');
+      if (basePath && !basePath.startsWith('/')) basePath = '/' + basePath;
       basePath = basePath.replace(/\/+$/, '');
 
-      var subMatch = pathname.match(/\/(admin|mypage|cart|checkout)\/?$/i);
+      var subMatch = cleanedPath.match(/\/(admin|mypage|cart|checkout)\/?$/i);
       if (subMatch && subMatch[1]) {
         sessionStorage.setItem('wawa_pending_route', '/' + subMatch[1].toLowerCase());
       }
 
       sessionStorage.setItem('wawa_loop_guard', '1');
-      window.location.replace(basePath + '/index.html');
+      window.location.replace((basePath || '') + '/');
     })();
   </script>
 </head>

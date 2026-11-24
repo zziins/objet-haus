@@ -2025,9 +2025,12 @@ function handlePendingSubRoute() {
 
   if (!matchedPath) return;
 
+
+
   if (window.history && window.history.replaceState) {
     const cleanUrl = window.location.pathname
-      .replace(/(\/index\.html)+$/i, '')
+      .replace(/(\/index\.html)+/gi, '/')
+      .replace(/\/{2,}/g, '/')
       .replace(/\/(admin|mypage|cart|checkout)\/?$/i, '/');
     window.history.replaceState(null, '', cleanUrl || '/objet-haus/');
   }
