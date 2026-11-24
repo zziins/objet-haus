@@ -1208,7 +1208,7 @@ function renderCheckout() {
           </div>
           <div class="field-group">
             <label>설치 주소</label>
-            <input type="text" id="orderAddress" value="경기도 안산시 단원구 중앙대로 123" placeholder="배송 및 설치 주소를 입력하세요" />
+            <input type="text" id="orderAddress" value="" placeholder="배송 및 설치 주소를 입력하세요" />
           </div>
         </div>
 
@@ -2022,3 +2022,56 @@ function handlePendingSubRoute() {
 
 window.addEventListener('hashchange', handlePendingSubRoute);
 document.addEventListener('DOMContentLoaded', handlePendingSubRoute);
+
+
+///뒤로가기 버튼
+
+let _isPopstateNav = false;
+
+function applyViewState(viewId) {
+  if (viewId === 'view-admin') {
+    if (!currentUser || currentUser.role !== 'admin') {
+      openAlertModal('관리자 권한이 없습니다. 상품 목록 화면으로 이동합니다.', '권한 안내', () => applyViewState('view-home'));
+      return;
+    }
+  }
+  if ((viewId === 'view-checkout' || viewId === 'view-mypage') && !currentUser) {
+    openAlertModal('로그인이 필요한 서비스입니다.', '로그인 안내', () => openAuthView('login'));
+    return;
+  }
+
+  document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+  const targetSec = document.getElementById(viewId);
+  if (!targetSec) return;
+  targetSec.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (viewId === 'view-home') renderProducts();
+  if (viewId === 'view-cart') renderCart();
+  if (viewId === 'view-checkout') renderCheckout();
+  if (viewId === 'view-mypage') renderMyPage();
+  if (viewId === 'view-admin') renderAdmin();
+}
+
+function showView(viewId) {
+  if (!_isPopstateNav && window.history && window.history.pushState) {
+    const stateObj = { viewId, productId: currentProductId };
+    const hashUrl = viewId === 'view-home' ? window.location.pathname : `#${viewId.replace('view-', '')}`;
+    window.history.pushState(stateObj, '', hashUrl);
+  }
+  _isPopstateNav = false;
+  applyViewState(viewId);
+}
+
+window.addEventListener('popstate', (e) => {
+  _isPopstateNav = true;
+  if (e.state && e.state.viewId) {
+    if (e.state.viewId === 'view-pdp' && e.state.productId) {
+      currentProductId = e.state.productId;
+      renderPDP();
+    }
+    applyViewState(e.state.viewId);
+  } else {
+    applyViewState('view-home');
+  }
+});
