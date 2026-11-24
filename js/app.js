@@ -2002,3 +2002,59 @@ function checkAdminUrlAccess() {
 
 window.addEventListener('hashchange', checkAdminUrlAccess);
 document.addEventListener('DOMContentLoaded', checkAdminUrlAccess);
+
+
+///mypage등 비정상 접근
+function handlePendingSubRoute() {
+  const pendingRoute = sessionStorage.getItem('wawa_pending_route') || sessionStorage.getItem('srs43_pending_route');
+  const currentHash = window.location.hash || '';
+  const currentPath = window.location.pathname || '';
+
+  if (sessionStorage.getItem('wawa_pending_route')) {
+    sessionStorage.removeItem('wawa_pending_route');
+  }
+  if (sessionStorage.getItem('srs43_pending_route')) {
+    sessionStorage.removeItem('srs43_pending_route');
+  }
+
+  const matchedPath =
+    pendingRoute ||
+    (currentPath.match(/\/(admin|mypage|cart|checkout)\/?$/i)?.[0]?.toLowerCase() || '') ||
+    (currentHash.match(/^#\/?(admin|mypage|cart|checkout)\/?$/i)?.[1]
+      ? '/' + currentHash.match(/^#\/?(admin|mypage|cart|checkout)\/?$/i)[1].toLowerCase()
+      : '');
+
+  if (!matchedPath) return;
+
+  if (window.history && window.history.replaceState) {
+    const cleanUrl = window.location.pathname.replace(/\/(admin|mypage|cart|checkout)\/?$/i, '/');
+    window.history.replaceState(null, '', cleanUrl);
+  }
+
+  if (matchedPath === '/admin') {
+    if (!currentUser || currentUser.role !== 'admin') {
+      openAlertModal('관리자 권한이 없습니다. 상품 목록 화면으로 이동합니다.', '권한 안내', () => showView('view-home'));
+      showView('view-home');
+    } else {
+      showView('view-admin');
+    }
+    return;
+  }
+
+  if (matchedPath === '/mypage' || matchedPath === '/checkout') {
+    if (!currentUser) {
+      openAlertModal('로그인이 필요한 서비스입니다.', '로그인 안내', () => openAuthView('login'));
+      showView('view-home');
+    } else {
+      showView(matchedPath === '/mypage' ? 'view-mypage' : 'view-checkout');
+    }
+    return;
+  }
+
+  if (matchedPath === '/cart') {
+    showView('view-cart');
+  }
+}
+
+window.addEventListener('hashchange', handlePendingSubRoute);
+document.addEventListener('DOMContentLoaded', handlePendingSubRoute);
