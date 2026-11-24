@@ -18,7 +18,7 @@ const DEFAULT_PRODUCTS = [
     id: 1,
     category: '냉장고',
     modelCode: 'RF85B9111AP',
-    name: '비스포크 4도어 냉장고',
+    name: '비스포크 4도어 냉장고(800L)',
     desc: '상단 새틴 베이지 & 하단 새틴 세이지 민트 글라스 도어와 미세 정온 기술이 적용된 4도어 프리스탠딩 냉장고',
     specs: ['4도어 프리스탠딩', '새틴 투톤 글라스', '에너지 1등급'],
     price: 2000000,
@@ -28,7 +28,7 @@ const DEFAULT_PRODUCTS = [
     optionLabel: '추가 옵션 선택',
     options: [
       { id: 'ice', label: '얼음정수', extra: 150000, img: null },
-      { id: 'cap', label: '용량', extra: 100000, img: null },
+      { id: 'cap', label: '용량 업그레이드(900L)', extra: 100000, img: null },
       { id: 'knock', label: '노크온', extra: 120000, img: null }
     ]
   },
@@ -36,7 +36,7 @@ const DEFAULT_PRODUCTS = [
     id: 2,
     category: '냉장고',
     modelCode: 'W823GBB482',
-    name: '디오스 오브제 4도어 냉장고',
+    name: '디오스 오브제 4도어 냉장고(800L)',
     desc: '카밍 베이지 매트 글라스 패널과 24시간 자동 정온 기술이 탑재된 프리미엄 오브제 4도어 냉장고',
     specs: ['오브제 4도어', '24시간 자동정온', '에너지 1등급'],
     price: 2450000,
@@ -46,7 +46,7 @@ const DEFAULT_PRODUCTS = [
     optionLabel: '추가 옵션 선택',
     options: [
       { id: 'ice', label: '얼음정수', extra: 150000, img: null },
-      { id: 'cap', label: '용량', extra: 100000, img: null },
+      { id: 'cap', label: '용량 업그레이드(910L) ', extra: 100000, img: null },
       { id: 'knock', label: '노크온', extra: 120000, img: null }
     ]
   },
@@ -54,7 +54,7 @@ const DEFAULT_PRODUCTS = [
     id: 3,
     category: '냉장고',
     modelCode: 'RS84B508115',
-    name: '비스포크 양문형 냉장고',
+    name: '비스포크 양문형 냉장고(680L)',
     desc: '좌우 대칭 2도어 양문형 구조와 히든 포켓 핸들이 적용된 미니멀 베이지 냉장고',
     specs: ['양문형 2도어', '히든 포켓 핸들', '멀티 냉각 시스템'],
     price: 1350000,
@@ -64,7 +64,7 @@ const DEFAULT_PRODUCTS = [
     optionLabel: '추가 옵션 선택',
     options: [
       { id: 'ice', label: '얼음정수', extra: 150000, img: null },
-      { id: 'cap', label: '용량', extra: 100000, img: null },
+      { id: 'cap', label: '용량 업그레이드(800L)', extra: 100000, img: null },
       { id: 'knock', label: '노크온', extra: 120000, img: null }
     ]
   },
@@ -72,7 +72,7 @@ const DEFAULT_PRODUCTS = [
     id: 4,
     category: '냉장고',
     modelCode: 'S834MTE30',
-    name: '디오스 상냉장 하냉동 냉장고',
+    name: '디오스 상냉장 하냉동 냉장고(500L)',
     desc: '상단 냉장실과 하단 냉동실이 분리된 모던 베이지·실버 2도어 냉장고',
     specs: ['상냉장 하냉동', '에너지 1등급', '2도어 슬림'],
     price: 1690000,
@@ -82,7 +82,7 @@ const DEFAULT_PRODUCTS = [
     optionLabel: '추가 옵션 선택',
     options: [
       { id: 'ice', label: '얼음정수', extra: 150000, img: null },
-      { id: 'cap', label: '용량', extra: 100000, img: null },
+      { id: 'cap', label: '용량 업그레이드(700L)', extra: 100000, img: null },
       { id: 'knock', label: '노크온', extra: 120000, img: null }
     ]
   },
@@ -92,7 +92,7 @@ const DEFAULT_PRODUCTS = [
     id: 5,
     category: '세탁기',
     modelCode: 'FX25WSQ',
-    name: '트롬 오브제 세탁기',
+    name: '트롬 오브제 세탁기 25kg',
     desc: '중앙 메탈릭 다이얼과 AI DD모터, 100℃ 트루스팀을 탑재한 25kg 대용량 드럼세탁기',
     specs: ['25kg 드럼세탁기', 'AI DD모터', '트루스팀 살균'],
     price: 1500000,
@@ -101,7 +101,7 @@ const DEFAULT_PRODUCTS = [
     lifestyleImg: 'images/washer-lifestyle.png',
     optionLabel: '추가 옵션 선택',
     options: [
-      { id: 'cap', label: '용량', extra: 80000, img: null },
+      { id: 'cap', label: '용량 업그레이드(27kg)', extra: 80000, img: null },
       { id: 'mini', label: '미니워시', extra: 350000, img: null },
       { id: 'rack', label: '키높이수납장', extra: 120000, img: null }
     ]
@@ -110,7 +110,7 @@ const DEFAULT_PRODUCTS = [
     id: 6,
     category: '세탁기',
     modelCode: 'WF24B9600KE',
-    name: '그랑데 AI 드럼세탁기',
+    name: '그랑데 AI 드럼세탁기 24kg',
     desc: '심플한 콤팩트 바디와 AI 맞춤세탁 코스를 지원하는 24kg 드럼세탁기',
     specs: ['24kg 드럼세탁기', 'AI 맞춤세탁', '에너지 1등급'],
     price: 1290000,
@@ -119,7 +119,7 @@ const DEFAULT_PRODUCTS = [
     lifestyleImg: 'images/washer-lifestyle.png',
     optionLabel: '추가 옵션 선택',
     options: [
-      { id: 'cap', label: '용량', extra: 80000, img: null },
+      { id: 'cap', label: '용량 업그레이드(26kg)', extra: 80000, img: null },
       { id: 'mini', label: '미니워시', extra: 350000, img: null },
       { id: 'rack', label: '키높이수납장', extra: 120000, img: null }
     ]
@@ -137,7 +137,7 @@ const DEFAULT_PRODUCTS = [
     lifestyleImg: 'images/washer-lifestyle.png',
     optionLabel: '추가 옵션 선택',
     options: [
-      { id: 'cap', label: '용량', extra: 80000, img: null },
+      { id: 'cap', label: '용량 업그레이드(23kg)', extra: 80000, img: null },
       { id: 'mini', label: '미니워시', extra: 350000, img: null },
       { id: 'rack', label: '키높이수납장', extra: 120000, img: null }
     ]
@@ -146,8 +146,8 @@ const DEFAULT_PRODUCTS = [
     id: 8,
     category: '세탁기',
     modelCode: 'W20WTA',
-    name: '트롬 오브제 워시타워 컴팩트',
-    desc: '상단 건조기와 하단 세탁기가 하나로 결합된 원바디 워시타워 컴팩트 모델',
+    name: '트롬 오브제 워시타워 컴팩트 21kg',
+    desc: '상단 건조기와 하단 세탁기가 하나로 결합된 원바디 워시타워 컴팩트 모델 21kg',
     specs: ['일체형 워시타워', '원바디 런처', '자동 코스연동'],
     price: 1890000,
     stock: 18,
@@ -155,7 +155,7 @@ const DEFAULT_PRODUCTS = [
     lifestyleImg: 'images/washer-lifestyle.png',
     optionLabel: '추가 옵션 선택',
     options: [
-      { id: 'cap', label: '용량', extra: 80000, img: null },
+      { id: 'cap', label: '용량 업그레이드(24kg)', extra: 80000, img: null },
       { id: 'mini', label: '미니워시', extra: 350000, img: null },
       { id: 'rack', label: '키높이수납장', extra: 120000, img: null }
     ]
@@ -166,8 +166,8 @@ const DEFAULT_PRODUCTS = [
     id: 9,
     category: '건조기',
     modelCode: 'RD20WSQ',
-    name: '트롬 오브제 건조기',
-    desc: '100℃ 트루스팀 살균과 6모션 수축 완화 건조를 지원하는 오브제컬렉션 건조기',
+    name: '트롬 오브제 건조기 21kg',
+    desc: '100℃ 트루스팀 살균과 6모션 수축 완화 건조를 지원하는 오브제컬렉션 건조기 21kg',
     specs: ['트루스팀 살균', '인버터 히트펌프', '콘덴서 자동세척'],
     price: 1450000,
     stock: 40,
@@ -182,8 +182,8 @@ const DEFAULT_PRODUCTS = [
     id: 10,
     category: '건조기',
     modelCode: 'DV20B9760CE',
-    name: '그랑데 AI 히트펌프 건조기',
-    desc: '모던 다크 차콜 바디와 정밀 습도 센서를 탑재한 AI 히트펌프 건조기',
+    name: '그랑데 AI 히트펌프 건조기 20kg',
+    desc: '모던 다크 차콜 바디와 정밀 습도 센서를 탑재한 AI 히트펌프 건조기 20kg',
     specs: ['다크 차콜 에디션', 'AI 정밀센서', '에너지 1등급'],
     price: 1320000,
     stock: 15,
@@ -198,7 +198,7 @@ const DEFAULT_PRODUCTS = [
     id: 11,
     category: '건조기',
     modelCode: 'RH17VTS',
-    name: '트롬 인버터 건조기 실속형',
+    name: '트롬 인버터 건조기 실속형 17kg',
     desc: '콤팩트한 17kg 용량과 저온 제습 기술로 전기료 부담을 낮춘 실속형 건조기',
     specs: ['17kg 실속형', '저온 제습건조', '에너지 1등급'],
     price: 980000,
@@ -223,7 +223,7 @@ const DEFAULT_PRODUCTS = [
     lifestyleImg: 'images/dryer-lifestyle.png',
     optionLabel: '추가 옵션 선택',
     options: [
-      { id: 'cap22', label: '용량 22kg', extra: 100000, img: null }
+      { id: 'cap22', label: '용량 26kg', extra: 100000, img: null }
     ]
   }
 ];
@@ -370,11 +370,11 @@ const DEFAULT_ORDERS = [
 
 
 const TEAM_BUG_FLAGS = {
-  T1: true, // 팀원 1: 주문·복합결제 (S-05) 5개
-  T2: true, // 팀원 2: 장바구니·다품목할인 (S-04) 5개
-  T3: true, // 팀원 3: 상품탐색·상세옵션 (S-02, S-03) 5개
-  T4: true, // 팀원 4: 마이페이지·주문취소 (S-06) 5개
-  T5: true  // 팀원 5: 회원가입/로그인·관리자 (S-01, S-07) 5개
+  T1: false, // 팀원 1: 주문·복합결제 (S-05) 5개
+  T2: false, // 팀원 2: 장바구니·다품목할인 (S-04) 5개
+  T3: false, // 팀원 3: 상품탐색·상세옵션 (S-02, S-03) 5개
+  T4: false, // 팀원 4: 마이페이지·주문취소 (S-06) 5개
+  T5: false  // 팀원 5: 회원가입/로그인·관리자 (S-01, S-07) 5개
 };
 
 let products = JSON.parse(localStorage.getItem('srs43_v12_t25_products')) || JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
@@ -606,7 +606,7 @@ function handleSignup(e) {
     return;
   }
   if (!TEAM_BUG_FLAGS.T5 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  // [T5-DEF-01] 이메일 형식(@도메인) 검증 누락
+    // [T5-DEF-01] 이메일 형식(@도메인) 검증 누락
     errEl.innerText = '올바른 이메일 형식(아이디@도메인)을 입력해 주세요.';
     return;
   }
@@ -743,8 +743,8 @@ function renderProducts() {
           <div class="price-sub">제휴카드 5% 혜택가 ${formatKRW(Math.round(p.price * 0.95))}</div>
         </div>
         <div class="card-actions">
-          <button class="btn-line" ${( !TEAM_BUG_FLAGS.T5 && p.stock === 0 ) ? 'disabled' : ''} onclick="quickAddCart(${p.id})">장바구니</button>
-          <button class="btn-solid" ${( !TEAM_BUG_FLAGS.T5 && p.stock === 0 ) ? 'disabled' : ''} onclick="openPDP(${p.id})">
+          <button class="btn-line" ${(!TEAM_BUG_FLAGS.T5 && p.stock === 0) ? 'disabled' : ''} onclick="quickAddCart(${p.id})">장바구니</button>
+          <button class="btn-solid" ${(!TEAM_BUG_FLAGS.T5 && p.stock === 0) ? 'disabled' : ''} onclick="openPDP(${p.id})">
             ${p.stock === 0 ? '품절' : '상세 · 옵션선택'}
           </button>
           <!-- [T5-DEF-05] 재고 0 품절 상태에서도 카드 내 장바구니·상세 버튼 비활성화 누락 -->
@@ -866,19 +866,19 @@ function renderPDP() {
           <div class="opt-title">
             <span>${p.optionLabel}</span>
             ${selectedOptionIds.length > 0
-              ? `<button type="button" class="btn-clear-opts" onclick="selectedOptionIds=[]; renderPDP();">✕ 전체 선택 해제</button>`
-              : ''}
+      ? `<button type="button" class="btn-clear-opts" onclick="selectedOptionIds=[]; renderPDP();">✕ 전체 선택 해제</button>`
+      : ''}
           </div>
           <div class="opt-pills">
             ${p.options.map(o => {
-              const isSelected = selectedOptionIds.includes(o.id);
-              return `
+        const isSelected = selectedOptionIds.includes(o.id);
+        return `
                 <button type="button" class="opt-pill ${isSelected ? 'active' : ''}" onclick="toggleProductOption('${o.id}')">
                   <span>${o.label}</span>
                   <span class="opt-price-tag">+${o.extra.toLocaleString()}원</span>
                 </button>
               `;
-            }).join('')}
+      }).join('')}
           </div>
         </div>
 
@@ -1420,15 +1420,15 @@ function renderMyPage() {
                   <td>${o.orderDate}</td>
                   <td>${o.items.map(i => `${i.name} [${i.optionText}] × ${i.qty}개`).join('<br/>')}</td>
                   <td style="font-size:12px;">
-                    다품목 -${(o.multiDiscount||0).toLocaleString()}원 / 쿠폰 -${(o.couponDiscount||0).toLocaleString()}원<br/>
-                    포인트 -${(o.pointUsed||0).toLocaleString()}P / 카드 -${(o.cardDiscount||0).toLocaleString()}원
+                    다품목 -${(o.multiDiscount || 0).toLocaleString()}원 / 쿠폰 -${(o.couponDiscount || 0).toLocaleString()}원<br/>
+                    포인트 -${(o.pointUsed || 0).toLocaleString()}P / 카드 -${(o.cardDiscount || 0).toLocaleString()}원
                   </td>
                   <td><strong>${formatKRW(o.amount)}</strong></td>
                   <td><strong style="color:var(--brand);">${o.status}</strong></td>
                   <td>
                     ${(o.status === '결제완료' || (TEAM_BUG_FLAGS.T4 && o.status === '배송준비'))
-                      ? `<button class="icon-btn" style="color:var(--danger); border-color:var(--danger);" onclick="cancelUserOrder('${o.orderId}')">주문 취소</button>`
-                      : `<span style="font-size:12px; color:var(--text-muted);">취소 불가 (${o.status})</span>`}
+        ? `<button class="icon-btn" style="color:var(--danger); border-color:var(--danger);" onclick="cancelUserOrder('${o.orderId}')">주문 취소</button>`
+        : `<span style="font-size:12px; color:var(--text-muted);">취소 불가 (${o.status})</span>`}
                     <!-- [T4-DEF-01] 배송준비 상태 주문 취소 허용 -->
                   </td>
                 </tr>
@@ -1653,11 +1653,11 @@ function renderAdmin() {
             <div class="chart-title">카테고리별 판매 매출 시각화</div>
             <div class="chart-sub">정상 주문 기준 품목별 매출 비중</div>
             ${Object.entries(catTotals).map(([cat, amt]) => {
-              const sumAllCat = Object.values(catTotals).reduce((a, b) => a + b, 0);
-              const pct = sumAllCat > 0 ? Math.round((amt / sumAllCat) * 100) : 0;
-              const w = sumAllCat > 0 ? Math.max(4, Math.round((amt / maxCat) * 100)) : 0;
-              const color = cat === '냉장고' ? '#A50034' : (cat === '세탁기' ? '#C86D51' : '#2E7D32');
-              return `
+      const sumAllCat = Object.values(catTotals).reduce((a, b) => a + b, 0);
+      const pct = sumAllCat > 0 ? Math.round((amt / sumAllCat) * 100) : 0;
+      const w = sumAllCat > 0 ? Math.max(4, Math.round((amt / maxCat) * 100)) : 0;
+      const color = cat === '냉장고' ? '#A50034' : (cat === '세탁기' ? '#C86D51' : '#2E7D32');
+      return `
                 <div class="bar-row">
                   <div class="bar-label-row">
                     <span>${cat} (${pct}%)</span>
@@ -1668,33 +1668,33 @@ function renderAdmin() {
                   </div>
                 </div>
               `;
-            }).join('')}
+    }).join('')}
           </div>
 
           <div class="chart-box">
             <div class="chart-title">상품별 판매 랭킹 TOP 5</div>
             <div class="chart-sub">조회 기간 내 가장 많이 팔린 제품 (판매 수량 및 누적 매출 순)</div>
             ${(() => {
-              const prodMap = {};
-              validOrders.forEach(o => {
-                o.items.forEach(it => {
-                  if (!prodMap[it.name]) {
-                    prodMap[it.name] = { name: it.name, qty: 0, sales: 0 };
-                  }
-                  prodMap[it.name].qty += it.qty;
-                  prodMap[it.name].sales += it.unitPrice * it.qty;
-                });
-              });
-              const topProducts = Object.values(prodMap)
-                .sort((a, b) => b.qty - a.qty || b.sales - a.sales)
-                .slice(0, 5);
-              if (topProducts.length === 0) {
-                return '<p style="font-size:13px; color:var(--text-muted);">조회 기간 내 판매된 상품 내역이 없습니다.</p>';
-              }
-              const maxSales = Math.max(1, ...topProducts.map(x => x.sales));
-              return topProducts.map((tp, idx) => {
-                const w = Math.max(10, Math.round((tp.sales / maxSales) * 100));
-                return `
+        const prodMap = {};
+        validOrders.forEach(o => {
+          o.items.forEach(it => {
+            if (!prodMap[it.name]) {
+              prodMap[it.name] = { name: it.name, qty: 0, sales: 0 };
+            }
+            prodMap[it.name].qty += it.qty;
+            prodMap[it.name].sales += it.unitPrice * it.qty;
+          });
+        });
+        const topProducts = Object.values(prodMap)
+          .sort((a, b) => b.qty - a.qty || b.sales - a.sales)
+          .slice(0, 5);
+        if (topProducts.length === 0) {
+          return '<p style="font-size:13px; color:var(--text-muted);">조회 기간 내 판매된 상품 내역이 없습니다.</p>';
+        }
+        const maxSales = Math.max(1, ...topProducts.map(x => x.sales));
+        return topProducts.map((tp, idx) => {
+          const w = Math.max(10, Math.round((tp.sales / maxSales) * 100));
+          return `
                   <div class="bar-row">
                     <div class="bar-label-row">
                       <span><strong>${idx + 1}위</strong> ${tp.name} (${tp.qty}대)</span>
@@ -1705,8 +1705,8 @@ function renderAdmin() {
                     </div>
                   </div>
                 `;
-              }).join('');
-            })()}
+        }).join('');
+      })()}
           </div>
         </div>
 
@@ -1715,7 +1715,7 @@ function renderAdmin() {
           <thead><tr><th>주문번호</th><th>주문일</th><th>주문자</th><th>주문 상품</th><th>순매출액</th><th>상태</th></tr></thead>
           <tbody>
             ${validOrders.length === 0 ? '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">데이터가 없습니다.</td></tr>' :
-              validOrders.map(o => `
+        validOrders.map(o => `
                 <tr>
                   <td><strong>${o.orderId}</strong></td>
                   <td>${o.orderDate}</td>
@@ -1725,7 +1725,7 @@ function renderAdmin() {
                   <td>${o.status}</td>
                 </tr>
               `).join('')
-            }
+      }
           </tbody>
         </table>
       </div>
