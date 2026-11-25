@@ -223,7 +223,7 @@ const DEFAULT_PRODUCTS = [
     lifestyleImg: 'images/dryer-lifestyle.png',
     optionLabel: '추가 옵션 선택',
     options: [
-      { id: 'cap22', label: '용량 26kg', extra: 100000, img: null }
+      { id: 'cap22', label: '용량 22kg', extra: 100000, img: null }
     ]
   }
 ];
